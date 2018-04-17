@@ -17,18 +17,8 @@ const appLogger = require('./server/config/logger').appLog;
 const dbConn = require('./server/config/dbConn');
 const passportConfig = require('./server/config/passport');
 
-
-var test = function* () {
-  let FileUtil = require('./server/common/utils/file.server.util');
-  var files = FileUtil.getGlobbedPaths('./server/*/models/*.server.model.js', './server/user/models/user.server.model.js');
-
-  console.log(files);
-};
-
 co(function* () {
   try {
-    yield test();
-
     let dbConnection = yield dbConn.init();
     passportConfig();
 
