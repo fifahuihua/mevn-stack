@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title><%=title%></title>
+    <%
+      for (var i=0; i<cssFiles.length; i++) {
+    %>
+        <link href="/public/dist/css/<%=cssFiles[i]%>" rel="stylesheet"/>
+    <%
+      }
+    %>
+</head>
+<body style="margin-top: 0;">
+  <div id="app"></div>
+  <%
+      for (var i=0; i<jsFiles.length; i++) {
+    %>
+        <script type="text/javascript" src="/public/dist/js/<%=jsFiles[i]%>"></script>
+    <%
+      }
+    %>
+</body>
+</html>

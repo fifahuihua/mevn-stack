@@ -11,6 +11,7 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const passport = require('passport');
 const flash = require('connect-flash');
+const consolidate = require('consolidate');
 
 const config = require('./server/config/config');
 const appLogger = require('./server/config/logger').appLog;
@@ -39,7 +40,7 @@ co(function* () {
       limit: 1024 * 1024 * 2
     }));
 
-    app.use('/static', express.static(path.join(__dirname, 'client/public')));
+    app.use('/public', express.static(path.join(__dirname, 'client/public')));
     var mongoStore = new MongoStore({
       mongooseConnection: dbConnection.connection,
       touchAfter: 24 * 3600, // Updating the session only every 24 hours.
@@ -59,15 +60,15 @@ co(function* () {
       store: mongoStore
     }));
 
-    app.set('views', path.join(__dirname, 'server/views'));
+    app.engine('server.view.html', consolidate[config.templateEngine]);
     app.set('view engine', 'server.view.html');
+    app.set('views', path.join(__dirname, 'server/common/views'));
+
     app.use(flash());
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.get('/', function (req, res) {
-      res.send('Hello World');
-    })
+    require('./server/main/routes/main.server.route')(app);
 
     app.listen(3000);
     console.log("[Express] Started server with port 3000.");

@@ -60,21 +60,23 @@ function formatArgs(args){
   return [util.format.apply(util.format, Array.prototype.slice.call(args))];
 }
 
-console.log = function(){
-  consoleLogger.info.apply(consoleLogger, formatArgs(arguments));
-};
-console.info = function(){
-  consoleLogger.info.apply(consoleLogger, formatArgs(arguments));
-};
-console.warn = function(){
-  consoleLogger.warn.apply(consoleLogger, formatArgs(arguments));
-};
-console.error = function(){
-  consoleLogger.error.apply(consoleLogger, formatArgs(arguments));
-};
-console.debug = function(){
-  consoleLogger.debug.apply(consoleLogger, formatArgs(arguments));
-};
+if (process.env.NODE_ENV === 'production') {
+  console.log = function(){
+    consoleLogger.info.apply(consoleLogger, formatArgs(arguments));
+  };
+  console.info = function(){
+    consoleLogger.info.apply(consoleLogger, formatArgs(arguments));
+  };
+  console.warn = function(){
+    consoleLogger.warn.apply(consoleLogger, formatArgs(arguments));
+  };
+  console.error = function(){
+    consoleLogger.error.apply(consoleLogger, formatArgs(arguments));
+  };
+  console.debug = function(){
+    consoleLogger.debug.apply(consoleLogger, formatArgs(arguments));
+  };
+}
 
 module.exports = {
   appLog: appLogger,

@@ -42,3 +42,23 @@ exports.getGlobbedPaths = function (globPatterns, excludes) {
 
   return _.compact(output);
 };
+
+exports.getFilesInDir = function (dir, suffix) {
+  if (!fs.existsSync(dir)) {
+    return [];
+  }
+  
+  var files = fs.readdirSync(dir);
+  if (!suffix) {
+    return files;
+  }
+
+  var result = [];
+  for (let file of files) {
+    if (file && file.endsWith(suffix)) {
+      result.push(file);
+    }
+  }
+
+  return result;
+};
